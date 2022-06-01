@@ -3,7 +3,7 @@ datawarehouse_name = 'target'
 #mysql (target db, datawarehouse)
 datawarehouse_db_config={
     'user_config': 'root',
-    'password_config': 'Sai@2349',
+    'password_config': '******',
     'host_config': 'localhost',
     'database_config': 'target',
 }
