@@ -1,6 +1,9 @@
 import mysql.connector
 import requests
 import xml.etree.ElementTree as ET
+
+
+
 def db_connection():
     conn=mysql.connector.connect(
     host="localhost",
@@ -9,10 +12,13 @@ def db_connection():
     database="target"
     )
     if conn.is_connected():
-        print("target db connection successful")
+        #print("target db connection successful")
         return conn
     else:
         return 'Error! unrecognised db platform'
+    
+    
+    
 def insert(ins_string,val):
     conn=db_connection()
     cursor=conn.cursor()
@@ -20,6 +26,9 @@ def insert(ins_string,val):
     conn.commit()
     cursor.close()
     conn.close()
+    
+    
+    
 def api_request():
     data='''<?xml version="1.0" encoding="UTF-8"?>
     <metadata>
@@ -41,6 +50,8 @@ def api_request():
     </food>
     </metadata>
     '''
+    
+    
     myroot = ET.fromstring(data)
     print(myroot[0].tag)
     print(myroot[0].attrib)
