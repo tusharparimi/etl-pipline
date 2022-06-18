@@ -3,33 +3,63 @@
 from db_credentials import *
 from sql_queries import *
 
-import mysql.connector as msql
+import mysql.connector 
 import requests
-# methods
 from etl import etl_process
 
-def main():
+
+  
+def db_connection():  
   print('starting etl')
-  #target_cnx=mysql.connector.connect(**datawarehouse_db_config)
-  conn=msql.connect(host=datawarehouse_db_config['host_config'],user=datawarehouse_db_config['user_config'],password=datawarehouse_db_config['password_config'])
+  conn=mysql.connector.connect(host=datawarehouse_db_config['host_config']
+                    ,user=datawarehouse_db_config['user_config']
+                    ,password=datawarehouse_db_config['password_config']
+                   )
   if conn.is_connected():
     print("target db connection successful")
+    return conn
   else:
-    return 'Error! unrecognised db platform'
-  req=requests.get(api_config[0]["url"])
-  if req.status_code==200:
+    return 'error! unrecognised db platform'
+  
+  
+  
+  
+def api_connection():    
+  api_request=requests.get(api_config[0]["url"])
+  if api_request.status_code==200:
     print("source api connection successful")
+    return api_request
   else:
-    return "Error! connecting to api"
-
-  etl_process(load_query, conn, req)
+    return "error! connecting to api"
+  
+  
+      
+      
+def main():
+  db_conn = db_connection()
+  api_conn = api_connection()
+  if 'error' not in db_conn & 'error' not in api_conn: 
+    etl_process(load_query, db_conn, api_conn)
+  else:
+    'error!'
 
   
 
   
-    
-
-
-
+   
 if __name__ == "__main__":
   main()
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
