@@ -22,7 +22,7 @@ def main():
   else:
     return "Error! connecting to api"
 
-  etl_process(insert_query, conn, req)
+  etl_process(load_query, conn, req)
 
   
 
