@@ -5,7 +5,7 @@
 #''')
 
 
-mysql_insert = ('''
+insert_query = ('''
   INSERT INTO staging.food (item_id, time, location)
   VALUES (%s, %s, %s)  
 ''')
