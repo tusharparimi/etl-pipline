@@ -3,43 +3,36 @@ import json
 import pandas as pd
 
     
-def api_request():
-    data=requests.get("https://*************************")
-    print(data.status_code)
-    print(type(data.text))
-    print(type(data))
-    print(data.headers)
-    api_list=json.loads(data.text)
-    print(type(api_list))
+def extract(api_conn):
+    print(api_conn.headers)
+    api_list=json.loads(api_conn.text)
+    
     for r1 in api_list:
         for r2 in r1["cuboids"]:
-            ins_string='INSERT INTO imaging VALUES(%s, %s, %s)'
-            val = (r2["position"]["x"], r2["position"]["y"],r2["position"]["z"])
-            insert(ins_string,val)
+            row = (r2["position"]["x"], r2["position"]["y"],r2["position"]["z"])
+            return row
             
             
             
-def etl(query, source_cnx, target_cnx):
+def etl(query, db_conn, api_conn):
     print("etl",query)
     
-    cursor=target_cnx.cursor()
+    row = extract(api_conn)
+    
+    cursor=db_conn.cursor()
+    cursor.execute(query,row)
 
-    for i in query:
-        if i=='INSERT':
-            sql=query[i]
-            cursor.execute(sql,row)
-            
-            target_cnx.commit()
-            cursor.close()
-            target_cnx.close()
+    api_conn.commit()
+    cursor.close()
+    api_conn.close()
+    db_conn.close()
        
 
 def etl_process(queries, conn, req):
-    source_cnx=req
-    target_cnx=conn
+    db_conn=req
+    api_conn=conn
     print("etl_process", queries)
 
-    etl(queries, source_cnx, target_cnx)
+    etl(queries, db_conn, api_conn)
+
     
-    # close the source db connection
-    source_cnx.close()
