@@ -5,7 +5,7 @@
 #''')
 
 
-insert_query = ('''
+load_query = ('''
   INSERT INTO staging.food (item_id, time, location)
   VALUES (%s, %s, %s)  
 ''')
