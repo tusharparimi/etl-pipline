@@ -6,10 +6,10 @@
 
 
 mysql_insert = ('''
-  INSERT INTO table (column_1, column_2, column_3)
-  VALUES (?, ?, ?)  
+  INSERT INTO staging.food (item_id, time, location)
+  VALUES (%s, %s, %s)  
 ''')
 # insert into table cuboids
-insert_query={'INSERT':'cuboids'}
+
 
 
